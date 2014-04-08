@@ -17,3 +17,7 @@ bower update
 
 cd $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/
 npm update
+
+rm -f $EZPAARSE_LIBS_PATH/ezpaarse/package.json \
+      $EZPAARSE_LIBS_PATH/ezpaarse/bower.json \
+      $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/package.json
