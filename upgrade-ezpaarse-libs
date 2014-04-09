@@ -13,13 +13,13 @@ wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse-scrapers/master
 
 cd $EZPAARSE_LIBS_PATH/ezpaarse/
 npm update
-rm ./npm-debug.log
+rm -f ./npm-debug.log
 
 bower update
 
 cd $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/
 npm update
-rm ./npm-debug.log
+rm -f ./npm-debug.log
 
 rm -f $EZPAARSE_LIBS_PATH/ezpaarse/package.json \
       $EZPAARSE_LIBS_PATH/ezpaarse/bower.json \
