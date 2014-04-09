@@ -12,16 +12,14 @@ wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse-scrapers/master
   -O $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/package.json
 
 cd $EZPAARSE_LIBS_PATH/ezpaarse/
-rm -f npm-shrinkwrap.json
 npm update
-npm shrinkwrap
+rm ./npm-debug.log
 
 bower update
 
 cd $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/
-rm -f npm-shrinkwrap.json
 npm update
-npm shrinkwrap
+rm ./npm-debug.log
 
 rm -f $EZPAARSE_LIBS_PATH/ezpaarse/package.json \
       $EZPAARSE_LIBS_PATH/ezpaarse/bower.json \
