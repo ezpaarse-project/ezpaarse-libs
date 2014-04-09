@@ -6,7 +6,7 @@ wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/package.
   -O $EZPAARSE_LIBS_PATH/ezpaarse/package.json
 
 wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/bower.json \
-  O $EZPAARSE_LIBS_PATH/ezpaarse/bower.json
+  -O $EZPAARSE_LIBS_PATH/ezpaarse/bower.json
 
 wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse-scrapers/master/package.json \
   -O $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/package.json
