@@ -33,7 +33,7 @@
     "tag": "0.15.4",
     "commit": "3141ca0cbc36bb50c101e1cfa87e11026cd8e5ba"
   },
-  "_source": "https://github.com/Semantic-Org/Semantic-UI.git",
+  "_source": "git://github.com/Semantic-Org/Semantic-UI.git",
   "_target": "~0.15.4",
   "_originalSource": "semantic-ui"
 }
