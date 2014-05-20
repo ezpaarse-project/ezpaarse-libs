@@ -8,19 +8,11 @@ wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/package.
 wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/bower.json \
   -O $EZPAARSE_LIBS_PATH/ezpaarse/bower.json
 
-wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse-scrapers/master/package.json \
-  -O $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/package.json
-
 cd $EZPAARSE_LIBS_PATH/ezpaarse/
 npm update
 rm -f ./npm-debug.log
 
 bower update
 
-cd $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/
-npm update
-rm -f ./npm-debug.log
-
 rm -f $EZPAARSE_LIBS_PATH/ezpaarse/package.json \
-      $EZPAARSE_LIBS_PATH/ezpaarse/bower.json \
-      $EZPAARSE_LIBS_PATH/ezpaarse-scrapers/package.json
+      $EZPAARSE_LIBS_PATH/ezpaarse/bower.json
