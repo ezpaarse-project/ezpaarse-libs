@@ -960,6 +960,10 @@ Install the dev dependencies:
 
     $ npm install string --development
 
+Install mocha globally:
+
+    $ npm install -g mocha
+
 Then navigate to the installed directory:
 
     $ cd node_modules/string/
@@ -1007,6 +1011,7 @@ If you contribute to this library, just modify `string.js`, `string.test.js`, an
 - [1] [Jon Principe](https://github.com/jprincipe)
 - [1] [James Manning]https://github.com/jamesmanning
 - [1] [Nathan Friedly](https://github.com/nfriedly)
+- [1] (Alison Rowland)(https://github.com/arowla)
 - `<your name here>`
 
 
