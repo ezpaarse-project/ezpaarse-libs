@@ -14,5 +14,6 @@ rm -f ./npm-debug.log
 
 bower update
 
+find $EZPAARSE_LIBS_PATH/ezpaarse/ -name .gitignore -delete
 rm -f $EZPAARSE_LIBS_PATH/ezpaarse/package.json \
       $EZPAARSE_LIBS_PATH/ezpaarse/bower.json
