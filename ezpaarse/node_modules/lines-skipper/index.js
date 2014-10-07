@@ -40,7 +40,7 @@ LinesSkipper.prototype._transform = function (chunk, encoding, done) {
 };
 
 LinesSkipper.prototype._flush = function (done) {
-  this.push(this._buffer);
+  if (this._nextLineToPush != this._linesToRemove[0]) { this.push(this._buffer); }
   done();
 };
 
