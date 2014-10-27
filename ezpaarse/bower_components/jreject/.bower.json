@@ -1,0 +1,27 @@
+{
+  "name": "TurnWheel/jReject",
+  "version": "1.1.4",
+  "main": [
+    "js/jquery.reject.js",
+    "css/jquery.reject.css",
+    "images/"
+  ],
+  "description": "jQuery Browser Rejection Plugin",
+  "license": "GPLv2",
+  "ignore": [
+    ".jshintrc"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.0"
+  },
+  "homepage": "https://github.com/TurnWheel/jReject",
+  "_release": "1.1.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.4",
+    "commit": "ebe60d1fb4989dec1cbfddb6403fde307f892dab"
+  },
+  "_source": "https://github.com/TurnWheel/jReject.git",
+  "_target": "~1.1.4",
+  "_originalSource": "jreject"
+}
