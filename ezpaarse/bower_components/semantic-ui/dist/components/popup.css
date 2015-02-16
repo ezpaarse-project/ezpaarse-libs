@@ -1,5 +1,5 @@
  /*
- * # Semantic UI
+ * # Semantic UI - 1.8.1
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -20,11 +20,14 @@
   position: absolute;
   top: 0px;
   right: 0px;
-  z-index: 900;
+  
+/* Fixes content being squished when inline (moz only) */
+  min-width: -moz-max-content;
+  z-index: 1900;
   border: 1px solid #cccccc;
   max-width: 250px;
   background-color: #ffffff;
-  padding: 0.8em 1em;
+  padding: 0.833em 1em;
   font-weight: normal;
   font-style: normal;
   color: rgba(0, 0, 0, 0.8);
@@ -217,11 +220,9 @@
 ---------------*/
 
 .ui.wide.popup {
-  width: 350px;
   max-width: 350px;
 }
 .ui[class*="very wide"].popup {
-  width: 550px;
   max-width: 550px;
 }
 
@@ -268,16 +269,16 @@
 ---------------*/
 
 .ui.small.popup {
-  font-size: 0.8rem;
+  font-size: 0.785714rem;
 }
 .ui.popup {
-  font-size: 0.875rem;
+  font-size: 0.85714rem;
 }
 .ui.large.popup {
   font-size: 1rem;
 }
 .ui.huge.popup {
-  font-size: 1.1rem;
+  font-size: 1.14285rem;
 }
 
 

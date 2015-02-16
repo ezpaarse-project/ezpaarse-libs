@@ -16,7 +16,7 @@
 --------------------*/
 
 @margin: 1rem 0rem;
-@verticalPadding: 0.83em;
+@verticalPadding: 0.78571em;
 @horizontalPadding: 0.95em;
 
 @background: #FFFFFF;
@@ -93,7 +93,6 @@
 @buttonOffset: -0.05em;
 @buttonVerticalPadding: 0.55em;
 @buttonSize: 0.875em;
-@actionButtonHorizontalPadding: 0.8em;
 
 /* Input */
 @inputSize: 1em;
@@ -133,14 +132,16 @@
 
 /* Pointing Arrow */
 @arrowSize: 0.6em;
-@arrowOffset: -(@arrowSize / 2);
-@arrowBorder: 1px solid rgba(0, 0, 0, 0.1);
+@arrowBorderSize: 1px;
+@arrowBorder: @arrowBorderSize solid @solidBorderColor;
+@arrowTransition: background @transitionDuration @transitionEasing;
+@arrowZIndex: 2;
 
 @arrowHoverColor: #FAFAFA;
-@arrowActiveColor: #F6F6F6;
+@arrowActiveColor: #F7F7F7;
 
-@arrowVerticalHoverColor: #FAFAFA;
-@arrowVerticalActiveColor: #FCFCFC;
+@arrowVerticalHoverColor: @arrowHoverColor;
+@arrowVerticalActiveColor: @arrowActiveColor;
 
 /*--------------
      States
@@ -238,6 +239,9 @@
 @tabularBorderWidth: 1px;
 @tabularHorizontalPadding: 1.4em;
 @tabularMenuTextColor: @menuTextColor;
+
+@tabularFluidOffset: 1px;
+@tabularFluidWidth: ~"calc(100% + "(@tabularFluidOffset * 2)~")";
 
 @tabularActiveColor: @selectedTextColor;
 

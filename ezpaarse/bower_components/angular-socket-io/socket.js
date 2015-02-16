@@ -1,21 +1,21 @@
 /*
  * @license
- * angular-socket-io v0.4.1
+ * angular-socket-io v0.7.0
  * (c) 2014 Brian Ford http://briantford.com
  * License: MIT
  */
 
-'use strict';
-
 angular.module('btford.socket-io', []).
   provider('socketFactory', function () {
+
+    'use strict';
 
     // when forwarding events, prefix the event name
     var defaultPrefix = 'socket:',
       ioSocket;
 
     // expose to provider
-    this.$get = function ($rootScope, $timeout) {
+    this.$get = ['$rootScope', '$timeout', function ($rootScope, $timeout) {
 
       var asyncAngularify = function (socket, callback) {
         return callback ? function () {
@@ -29,16 +29,21 @@ angular.module('btford.socket-io', []).
       return function socketFactory (options) {
         options = options || {};
         var socket = options.ioSocket || io.connect();
-        var prefix = options.prefix || defaultPrefix;
+        var prefix = options.prefix === undefined ? defaultPrefix : options.prefix ;
         var defaultScope = options.scope || $rootScope;
 
         var addListener = function (eventName, callback) {
           socket.on(eventName, callback.__ng = asyncAngularify(socket, callback));
         };
 
+        var addOnceListener = function (eventName, callback) {
+          socket.once(eventName, callback.__ng = asyncAngularify(socket, callback));
+        };
+
         var wrappedSocket = {
           on: addListener,
           addListener: addListener,
+          once: addOnceListener,
 
           emit: function (eventName, data, callback) {
             var lastIndex = arguments.length - 1;
@@ -57,6 +62,18 @@ angular.module('btford.socket-io', []).
             return socket.removeListener.apply(socket, arguments);
           },
 
+          removeAllListeners: function() {
+            return socket.removeAllListeners.apply(socket, arguments);
+          },
+
+          disconnect: function (close) {
+            return socket.disconnect(close);
+          },
+
+          connect: function() {
+            return socket.connect();
+          },
+
           // when socket.on('someEvent', fn (data) { ... }),
           // call scope.$broadcast('someEvent', data)
           forward: function (events, scope) {
@@ -68,8 +85,9 @@ angular.module('btford.socket-io', []).
             }
             events.forEach(function (eventName) {
               var prefixedEvent = prefix + eventName;
-              var forwardBroadcast = asyncAngularify(socket, function (data) {
-                scope.$broadcast(prefixedEvent, data);
+              var forwardBroadcast = asyncAngularify(socket, function () {
+                Array.prototype.unshift.call(arguments, prefixedEvent);
+                scope.$broadcast.apply(scope, arguments);
               });
               scope.$on('$destroy', function () {
                 socket.removeListener(eventName, forwardBroadcast);
@@ -81,5 +99,5 @@ angular.module('btford.socket-io', []).
 
         return wrappedSocket;
       };
-    };
+    }];
   });

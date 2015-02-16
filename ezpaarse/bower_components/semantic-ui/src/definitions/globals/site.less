@@ -24,13 +24,6 @@
              Page
 *******************************/
 
-/* UI requires Border-Box */
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
 html,
 body {
   height: 100%;
@@ -61,6 +54,7 @@ h2,
 h3,
 h4,
 h5 {
+  font-family: @headerFont;
   line-height: @headerLineHeight;
   margin: @headerMargin;
   font-weight: @headerFontWeight;
@@ -116,6 +110,7 @@ a:hover {
           Highlighting
 *******************************/
 
+/* Site */
 ::-webkit-selection {
   background-color: @highlightBackground;
   color: @highlightColor;
@@ -128,5 +123,23 @@ a:hover {
   background-color: @highlightBackground;
   color: @highlightColor;
 }
+
+/* Form */
+textarea::-webkit-selection,
+input::-webkit-selection {
+  background-color: @inputHighlightBackground;
+  color: @inputHighlightColor;
+}
+textarea::-moz-selection,
+input::-moz-selection {
+  background-color: @inputHighlightBackground;
+  color: @inputHighlightColor;
+}
+textarea::selection,
+input::selection {
+  background-color: @inputHighlightBackground;
+  color: @inputHighlightColor;
+}
+
 
 .loadUIOverrides();

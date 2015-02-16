@@ -5,9 +5,10 @@
 @background: @white;
 @border: none;
 @width: 90%;
+@zIndex: 1001;
 @xOffset: -(@width / 2);
 @borderRadius: @defaultBorderRadius;
-@boxShadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+@boxShadow: 0 1px 4px 1px rgba(0, 0, 0, 0.3);
 
 /* Close Icon */
 @closeOpacity: 0.8;
@@ -24,8 +25,8 @@
 /* Header */
 @headerMargin: 0em;
 @headerVerticalPadding: 1.2rem;
-@headerHorizontalpadding: 2rem;
-@headerPadding: @headerVerticalPadding @headerHorizontalpadding;
+@headerHorizontalPadding: 2rem;
+@headerPadding: @headerVerticalPadding @headerHorizontalPadding;
 @headerBackground: @subtleGradient @white;
 @headerColor: @darkTextColor;
 @headerFontSize: 1.6em;
@@ -92,9 +93,6 @@
 @fullScreenWidth: 95%;
 @fullScreenOffset: (100% - @fullScreenWidth) / 2;
 @fullScreenMargin: 1em auto;
-
-@fullScreenMobileWidth: auto;
-@fullScreenMobileMargin: 1em;
 
 /*-------------------
         Types

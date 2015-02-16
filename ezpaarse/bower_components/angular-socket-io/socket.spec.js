@@ -47,6 +47,56 @@ describe('socketFactory', function () {
   });
 
 
+  describe('#disconnect', function () {
+
+    it('should call the underlying socket.disconnect', function () {
+      mockIoSocket.disconnect = spy;
+      socket.disconnect();
+      expect(spy).toHaveBeenCalled();
+    });
+
+  });
+
+  describe('#connect', function () {
+
+    it('should call the underlying socket.connect', function () {
+      mockIoSocket.connect = spy;
+      socket.connect();
+      expect(spy).toHaveBeenCalled();
+    });
+
+  });
+
+
+  describe('#once', function () {
+
+    it('should apply asynchronously', function () {
+      socket.once('event', spy);
+
+      mockIoSocket.emit('event');
+
+      expect(spy).not.toHaveBeenCalled();
+      $timeout.flush();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should only run once', function () {
+      var counter = 0;
+      socket.once('event', function () {
+        counter += 1;
+      });
+
+      mockIoSocket.emit('event');
+      mockIoSocket.emit('event');
+      $timeout.flush();
+
+      expect(counter).toBe(1);
+    });
+
+  });
+
+
   describe('#emit', function () {
 
     it('should call the delegate socket\'s emit', function () {
@@ -85,6 +135,31 @@ describe('socketFactory', function () {
       socket.removeListener('event', spy);
 
       mockIoSocket.emit('event');
+
+      expect($browser.deferredFns.length).toBe(0);
+    });
+
+  });
+
+
+  describe('#removeAllListeners', function () {
+
+    it('should not call after removing listeners for an event', function () {
+      socket.on('event', spy);
+      socket.removeAllListeners('event');
+
+      mockIoSocket.emit('event');
+
+      expect($browser.deferredFns.length).toBe(0);
+    });
+
+    it('should not call after removing all listeners', function () {
+      socket.on('event', spy);
+      socket.on('event2', spy);
+      socket.removeAllListeners();
+
+      mockIoSocket.emit('event');
+      mockIoSocket.emit('event2');
 
       expect($browser.deferredFns.length).toBe(0);
     });
@@ -147,6 +222,22 @@ describe('socketFactory', function () {
       expect(spy).toHaveBeenCalled();
     }));
 
+    it('should use an empty prefix if specified', inject(function (socketFactory) {
+      var socket = socketFactory({
+        ioSocket: mockIoSocket,
+        scope: scope,
+        prefix: ''
+      });
+
+      socket.forward('event');
+
+      scope.$on('event', spy);
+      mockIoSocket.emit('event');
+      $timeout.flush();
+
+      expect(spy).toHaveBeenCalled();
+    }));
+
     it('should forward to the specified scope when one is provided', function () {
       var child = scope.$new();
       spyOn(child, '$broadcast');
@@ -157,6 +248,15 @@ describe('socketFactory', function () {
       $timeout.flush();
 
       expect(child.$broadcast).toHaveBeenCalled();
+    });
+
+    it('should pass all arguments to scope.$on', function () {
+      socket.forward('event');
+      scope.$on('socket:event', spy);
+      mockIoSocket.emit('event', 1, 2, 3);
+      $timeout.flush();
+
+      expect(spy.calls[0].args.slice(1)).toEqual([1, 2, 3]);
     });
   });
 

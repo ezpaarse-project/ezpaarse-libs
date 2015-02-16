@@ -1,5 +1,340 @@
 ## RELEASE NOTES
 
+### Version 1.8.1 - January 26, 2015
+
+**Bugs**
+- **Grid** - Removed `text-align: left` from column definition. Now inherits from grid.
+- **Input** - `ui labeled input` now forces  `table-cell` so that it can use `ui dropdown`, added example in ui docs with dropdown
+- **Input** - Fix border radius on `ui action input` with button groups, aka `ui buttons`
+- **Popup** - Popup `hide all` will now use transition set in `settings.transition` when closing other popups
+- **Grid** - Fix `doubling grid` setting `100% width` which may cause
+
+### Version 1.8.0 - January 23, 2015
+
+[View Closed Issues](https://github.com/Semantic-Org/Semantic-UI/issues?q=is%3Aissue+milestone%3A1.8.0+is%3Aclosed+sort%3Acomments-desc)
+[View Commits](https://github.com/Semantic-Org/Semantic-UI/compare/1.7.3...1.8.0)
+
+**Key Features**
+
+- **Form** - Form now has new methods `reset`, `clear`, `set value(s)`, and `read value(s)` for modifying and reading form data. Check docs for details on implementation. **Thanks @mktm**
+- **Search** - Search `onSelect` now recieves JSON object matching currently selected element, you can now programmatically retrieve result JSON using `.search('get result', 'query')` or `.search('get results')`. `get result` will default to current value unless specified as first parameter.
+- **Transition** - Added many new transitions, and new directions for existing transitions **Thanks @ph7vc**
+- **Dropdown** - Dropdown now stores `placeholder text` (prompt text) as separate from `default text` (text set on page load). You can now reset placeholder conditions using `$('.ui.dropdown').dropdown('clear');``
+
+**Enhancements**
+- **API** - Added new behavior `$.api('abort')` which cancels current request
+- **Dropdown** - Keyboard navigation will now allow opening of sub menus with right/left arrow. Enter will open sub-menus on an unselectable category (`allowCategorySelection: false`) as well.
+- **Dropdown** - Mutation observers will now observe changed in `<select>` values after initialization, and will automatically update dropdown menu when changed
+- **Dropdown** - Dropdown behavior `set selected` will now also call `set value` automatically, so you do not have to invoke two behaviors to update a `selection dropdown` **Thanks @mktm**
+- **Form** - Form will now prevent browsers from resubmitting form repeatedly when keydown is pressed on input field.
+- **Header** - Content headers now inherit `@h1-h6` sizes from `site.variables`
+- **Header** - Sub headers now adjust in size depending on header size, added new variables for subheader resizing
+- **Search** - Greatly reduced search delay from `300ms` to `100ms`. Previous request will automatically abort `xhr` when new request made
+- **Search** - Search `onSelect` and `onResultsAdd` can now cancel default actions by returning `false`.
+- **Transition** - Transition duration now defaults to what is specified in `css`, to set custom duration you can still pass at run-time as a different value. Animation duration no longer set by default during animation.
+- **Transition** - Transition will now prevent repeated animations when using an inferred direction i.e. animation without `in` or `out` specified. When `queue: true` only animations with explicit direction, e.g. `fade in`, will be ignored when called repeatedly.
+
+**Bugs**
+- **API** - Fixed bug where `$.api('get xhr')` was not correctly returning xhr promise
+- **API** - Fixed bug where API would query resource immediately when specifying `on: false`
+- **Button** - ``ui vertical basic buttons` now have dividers in default theme
+- **Button** - Fixes formatting for `disabled button` inside `ui buttons`
+- **Checkbox** - Checkbox now only modifies `input[type="radio"]` and `input[type="checkbox"]` ignoring any other inputs
+- **Dropdown** - Dropdown no longer will not show menu when no `item` are present in menu. Dropdown will now only filter results for `ui search dropdown` #1632 **Thanks PSyton**.
+- **Dropdown** - Dropdown will now produce an error if behaviors on an initialized `<select>` are not invoked on `ui dropdown`
+- **Dropdown** - Fixed bug where link items would not open in sub-menus due to `event.preventDefault`
+- **Label** - Fixed `ui corner label` appearing on-top of `ui dropdown` menu due to issue in z-index heirarchy
+- **Label** - Fixed issue with `ui ribbon label` not positioning itself correctly when using sizes like `small` or `large`
+- **List** - `relaxed list` and `very relaxed list` no longer add padding to child menu items
+- **Popup** - Popup will now only use a max of one element when `settings.popup` mistakingly passes multiple DOM elements
+- **Popup** - Popups will now by default appear over all UI content, even dimmers.
+- **Search** - Search results no longer hide/show when user changes tab or page loses focus
+- **Sidebar** - Fixed bug with `pusher` inheriting first child margins due to `margin-collapse`
+- **Sidebar** - Mobile `is mobile` was using RegExp `test()` which would return an incorrect value when called multiple times
+- **Sidebar** - Sidebar will now only close if you click on `pusher` or underlayed `body` (scale out). Clicking on fixed elements will not close sidebar.
+- **Transition** - Fixed bug with animations that contain the strings 'in' or 'out' as part of their names, for example "swing"
+- **Sticky** - Fixes issue with container size not being set explicitly on rail due to improper method renaming
+
+### Version 1.7.3 - January 16, 2015
+
+- **Installer** - Fix issue with component list in `semantic.json` not correctly overriding default components
+
+### Version 1.7.(1-2) - January 15, 2015
+
+**Bugs**
+
+- **Installer** - Fixes installer not including RTL parameter correctly
+- **UI** - Fixes `progress`, `ad`, and `sidebar` not loading `.override` files correctly
+- Removed undocumented components from `theme.config.example`
+
+### Version 1.7.0 - January 14, 2015
+
+**Major Changes**
+- **Project** - Right-to-left (RTL) support added. New gulp tasks for RTL file generation and install setting. Docs however do not yet support RTL.*Thanks @MohammadYounes for constant support with RTL!*.
+- **Project** - Install now let you specify the outputted file permissions (express/custom install)
+
+**Enhancements / Changes**
+- **Grid** - Added `equal width` variation using `flex-box`, `equal height` now also uses `flex-box` (this may have to be removed if causes unexpected browser issues)
+- **Sidebar** - Having a sidebar visible on page load is now much simpler. You can include ``ui visible sidebar`` on page load to have a sidebar element appear on page load. To close call `$('.ui.sidebar').sidebar('hide')`
+- **Sidebar** - Added documentation on using sidebar on a custom context. Sidebars using a custom context no longer add background colors like those initialized on `body`
+- **Site** - Form input highlighting color added (helps differentiate form colors with autocompleted fields). Default text highlighting color moved from highlighter yellow to a mellow blue.
+- **Dropdown** - Javascript Dropdown can now be disabled by adding ``disabled` class. No need to call `destroy`. **Thanks Psyton**
+- **Dropdown** - Search dropdown input can now have backgrounds. Fixes issues with autocompleted search dropdowns which have forced yellow "autocompleted" bg.
+- **Dropdown** - Fix issue with search selection not correctly matching when values are not strings
+- **Progress** - Progress bars can now display percent or amount left using `{value}` in text templates
+- **Dropdown** - New `upward dropdown` variation, which opens its menu upward. Default animation now uses ``settings.transition = 'auto'` and determines direction of animation based on menu direction
+- **Dropdown** - Dropdown matching fields without values now trims whitespace by default
+- **Checkbox** - Checkbox now toggles on spacebar when focused (previously only toggled on enter key).
+- **Popup** - Popup now uses its own custom method for determining `offsetParent` meaning 3D contexts (like inside an animation) no longer should break positioning
+- **Popup** - Popup now uses `preserve: false` by default, this is slightly less performant but will reduce page clutter caused by leaving generated elements in the DOM
+
+**Code / Build**
+- **Build** - `Dist/` files now set file permissions in build. `644` by default. Can adjust in `semantic.json` or during gulp install. You will need to run `npm install` to add the new gulp-chmod dependency *Thanks @PeterDaveHello*
+- **Sidebar** - `setup layout` not occurs synchronously if you initialize a sidebar without the proper html. This makes sure calls to sidebar will occur correctly before the page is setup. A new setting `delaySetup` will override this, increasing performance.
+- **Modules** - Remove use of deprecated `.size()` for `.length` across all modules
+- **Modules** - Use of `$.proxy` swapped to native `function.call()` for performance gains across all modules
+
+**Bugs**
+- **Video** - Video component now uses `//` instead of defaulting to `http`
+- **Dropdown** - `restore defaults` will now set placeholder styling and remove active elemenet. Added example in docs.
+- **Dropdown** - Fixed bug where sub menus may sometimes have dropdown icon overlap text
+- **Dropdown** - Fixes dropdown search input from filtering text values when input is inside menu, i.e "In-Menu Search"
+- **Dropdown** - Fix issue with search selection not correctly creating RegExp when select values are not strings **Thanks @alufers**
+- **Dropdown** - Fix issue with `left floated` and `right floated` content sometimes not applying correctly
+- **Popup** - `wide` and `very wide` popup will now appear when screen size is below their `max-width`
+- **Popup** - Popup no longer blurs element on popup hide
+- **Segment** - ``ui tabular menu`` now correctly aligns with attached segment when using fluid variation *Thanks @MohammadYounes*
+- **Segment** - `basic segment` no longer removes padding on first and last elements
+- **Steps** - Steps now use ``table-cell`` to allow steps to be equal height by default, even with different content height.
+- **Button** - Fix issue with labeled icon groups in material theme
+- **Progress** - Fixes bug with progress that use ``total`` and ``value`` receiving the wrong values for text templates
+- **List** - Fix some styling issues with `ui list` inside `ui menu`
+
+### Version 1.6.4 - January 12, 2015
+
+- `1.6.3` contained an unintentional character at beginning of `label.less` re-released as `1.6.4`
+
+**Bugs**
+- **Build** - Fix CSS property typo in list icon, and label causing issues with some custom build tools
+
+### Version 1.6.3 - January 12, 2015
+
+- `1.6.3` contained an unintentional character at beginning of `label.less` re-released as `1.6.4`
+
+**Bugs**
+- **Build** - Fix CSS property typo in list icon, and label causing issues with some custom build tools
+- **Label** - Fix attached labels to have correct border radius inside of attached segments of all kinds
+
+### Version 1.6.2 - January 06, 2015
+
+**Site Variables**
+- **Site** - EM values for `small` `large` etc are now all calculated from ``@emSize`` allowing you to only change one variable.
+
+**Bugs**
+- **Button** - Fixes active orange button color
+- **Menu** - Fixes ``fluid text menu`` to have correct margins
+
+### Version 1.6.1 - January 05, 2015
+
+**Bugs**
+- **Accordion** - Accordion now uses ``useFailSafe: true`` to avoid callbacks not occurring because of race conditions with `transitionend` in webkit
+
+### Version 1.6.0 - January 05, 2015
+
+**Build**
+- **Dist** - Build will now output version number in comment banner
+
+**Updates / Enhancements**
+- **Accordion** - Child element animations now use ``$.fn.transition`` and css animations by default (if available)
+- **Accordion** - Added ``animateChildren`` option to disable/enable opacity animation on child elements
+- **Accordion** - Accordion now uses `easeOutQuint`` instead of ``easeInOutQuint`` to increase perceived responsiveness of drawers
+- **Grid** - ``stackable grid`` now only adds horizontal padding when using ``stackable page grid``, otherwise content will take up full width of parent element
+
+**Bugs**
+- **Tab/Segment** - Fixes first tab being 1pixel taller than all other tabs
+- **Popup** - Fix issue with `ui popup` receiving error ``$offsetParent is undefined`` when using a pre-defined popup
+- **Popup** - Fix issue with ``ui popup` not appearing with ``ui flowing popup`` due to newly added ``min-width: max-content``
+- **Form** - ``ui search dropdown`` inside a form has incorrect focus style
+- **Menu** - Fixes ``ui fluid labeled icon menu`` to not have `min-width`
+
+### Version 1.5.2 - January 02, 2015
+
+**Bugs**
+- **Sidebar** - Fix bug with `useLegacy` introduced in `1.5.1`
+
+### Version 1.5.1 - January 01, 2015
+
+**Bugs**
+- **Button** - Fixed vertical alignment of ``ui animated button``
+- **Search** - Fixed issue with local search returning all results due to improper regexp
+
+### Version 1.5.0 - December 30, 2014
+
+**Critical Bugs**
+- **Build Tools** `1.4.0` introduced a bug with concatenated uncompressed ``dist/`` release including minified code. This would occur only when no components were specified in installer or ``semantic.json``.
+
+**Enhancements**
+- **Dropdown** - New setting ``allowCategorySelection`` lets menu items with sub menus be selected. Added example in docs.
+- **Reset** - Reset now inherits ``box-sizing`` [from html tag](http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/)
+- **Label** - ``ui ribbon label`` can now appear on the right side of content when specifying ``ui right ribbon label``
+- **Checkbox** - Checkboxes now can handle labels with multiple lines of text
+- **Progress** - Progress bars now display all intermediary percentage values when animating. Improved performance when progress bar is rapidly updated.
+- **Popup** - Popup now uses the new property ``min-width: max-content`` to allow for better display with ``inline`` in some circumstances where it escapes parent element.
+- **Table** - Table now has coupling with image to make sure size is preserved correctly with table sizing when used inside a table cell.
+- **Menu** - ``ui fixed menu`` now defaults to ``ui top fixed menu``
+
+**Bugs**
+- **Form** - Fixed (x) wide field not having correct bottom field margin when in ``fields`` group on tablet or mobile
+- **Tab** - Calls to global ``$.tab()`` would not pass arguments correctly
+- **Dropdown/Search** - Fixed issues with ``ui search`` and ``ui search dropdown`` using ``RegExp test`` which [advances pointer on match](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test) causing results to display incorrectly
+- **Form** - ``ui input`` now receives the same formatting as a normal input inside an ``inline field``
+- **Grid** - Fix display of equal height stackable grid. Add padding to divided stackable grid for dividers
+- **Input** - Fixed bug when ``ui action input`` uses a ``ui icon button``, button was receiving `i.icon` formatting.
+- **List** - Fixed bug when using ``ui icon button`` or ``ui icon header`` causing element to receive icon formatting
+- **Grid** - Fixed issues where negative margins on ``ui stackable grid`` could cause horizontal scroll bars on mobile
+- **Popup** - Popup destroy will now also destroy any unfired timers (show/hide delay)
+- **Popup** - Popup now moves to the same offset context to avoid positioning errors when using a named pre-existing popup.
+
+### Version 1.4.1 - December 23, 2014
+
+**Build Tools**
+- ``gulp build`` will now only build `dist/components/` for components selected in install
+- Fixed bug where interactive installer was not correctly setting components in ``express`` and ``custom`` install
+
+**Bugs**
+- **Dropdown** - ``<select>`` elements will now preserve original ``<option>`` order by default. Added ``sortSelect`` setting (disabled by default) to automatically sort ``<option>`` on initialization
+- **Button** - Fixes issue with ``will-change`` property added to ``ui button`` causing layout z-indexing issues (dropdown button)
+
+### Version 1.4.0 - December 22, 2014
+
+[Browse Issues for 1.4.0](https://github.com/Semantic-Org/Semantic-UI/issues?q=milestone%3A1.4.0)
+
+**Enhancements**
+- **Modal** - Modal now accepts custom dimmer settings with setting `dimmerSettings``
+- **Form** - Form inputs without ``type`` specified are now formatted **Thanks PSyton**
+- **Accordion** - Added inverted accordion variation
+
+**Bugs**
+- **Progress** - Fixes bug where ``ui indicating progress`` would not update its label immediately in webkit
+- **Button** - Fix Chrome bug with buttons sometimes not correctly repainting (particularly evenly divided groups)
+- **Menu** - Fix border radius of dropdown menu inside `ui vertical menu`
+- **Menu** - Fix formatting of ``ui selection dropdown`` inside ``menu``
+
+**Docs**
+- Improved documentation for API and Tab to be slightly more comprehensive
+
+### Version 1.3.2 - December 17, 2014
+
+- **Modal** - Fixed issue with modal dimmer appearing cut off in some browsers, and not hiding
+
+### Version 1.3.1 - December 17, 2014
+
+- **Button** - Dist version of button accidentally included ``chubby`` theme instead of ``default`` theme
+
+### Version 1.3.0 - December 17, 2014
+
+[Browse Closed Issues for 1.3.0](https://github.com/Semantic-Org/Semantic-UI/issues?q=is%3Aissue+milestone%3A1.2.1+is%3Aclosed)
+
+**Critical Bugs**
+- **Build Tools** - Fixed issue with ``theme.config`` causing ``gulp watch`` to throw an error
+
+**Enhancement**
+- **Dropdown** - Dropdown can now specify which direction a menu should appear left/right, dropdown icons can also appear on the left
+- **Dropdown** - Full text search now defaults to ``false``, meaning search terms will return only results beginning with letters
+- **Dropdown** - Search Dropdown is now much more responsive, js improvements and input throttling added.Throttling defaults to `50ms` and can be modified with settings ``delay.search``
+- **Dropdown** - Search Dropdown now correctly replaces placeholder text when backspacing to empty value
+- **Dropdown** - Search Dropdown now has a callback when all results filtered ``onNoResults``
+- **Dropdown** - Search dropdown will now strip html before searching values when searching html
+- **Dropdown** - Search now has keyboard shortcut to open dropdown on arrow down
+- **Form** - Form will no longer process validation rules on disabled fields
+- **Label** - Corner attached labels now display correctly inside of attached segments
+- **Steps** - Steps are now responsive for mobile by default, and have optional responsive styles for tablet
+- **Table** - Table has now variations to remove responsive stylings, specify responsiveness for tablet
+- **Table** - Table now has a ``structured table`` type, which removes some formatting considerations to support complex table layouts with ``colspan`` and ``rowspan``
+
+**Bugs**
+- **Button** - Button "or" positioning variables have been adjusted to be automatically calculated without magic numbers
+- **Dropdown** - Dropdown now always scrolls to active element on menu open, calculates position with new ``loading`` class
+- **Dropdown** - Fix bug in position of sub menus with ``floating dropdown``
+- **Form** - Fixed positioning of horizontal field groups, aka ``fields`` for mobile.
+- **Grid** - ``stackable grid`` now display correctly when nested inside a different ``stackable grid``
+- **Image** - UI image now works with SVG
+- **Modal** - Fixed issue with modal losing scroll position on mobile
+- **Modal/Dimmer** - Fixed issues with modal hiding during showing and showing during hiding, fixed issues with "hiding other" modals while a modal is mid-animation.
+- **Segment** - Vertical segments now have padding on first/last element, fixing issues when using with grids
+- **Sidebar** - Mobile sidebars now only set ``overflow`` on page's ``html`` when browsing from ``iOS`` devices. Using overflow caused issues with page's scroll being lost when resizing a browser to mobile widths. This also affected modules that used  `$(window).scrollTop()`` at mobile screen sizes
+- **Step** - Fix issue with completed ordered step icon alignment
+- **Table** - Fix responsive styles when applied to ``definition table``.
+- **All UI** - Adds error message when triggering an invalid module behavior i.e. typos ``$('.dropdown').dropdown('hid');``
+
+**Docs**
+- **Button** - Add tabindex /keyboard nav documentation
+- **Grid** - Add another grid example
+- Updates to reflect all new changes to UI listed above
+
+### Version 1.2.0 - December 08, 2014
+
+[Browse Closed Issues](https://github.com/Semantic-Org/Semantic-UI/issues?q=is%3Aissue+milestone%3A1.1.3+is%3Aclosed)
+
+**Enhancement**
+- **Form** - Form validation now has parameter ``optional`` which will only validate a field against a set of rules if the user does not leave it blank **Thanks DHNCarlos**
+- **Fonts** - Add font subset variable for ``site.variables`` **Thanks gabormeszoly**
+- **Modal** - Default modal shadow now more subtle
+- **Sidebar** - Now has behaviors ``is open/closed`` that are aliases for ``is visible/hidden``
+- **Checkbox** - JS Checkbox now handles several variations of html. Labels can be before inputs, after, or not included at all. This should work better with server side form generation.
+- **Progress** - Adds ``limitValues`` setting to adjust values outside of 0-100 automatically to within range, defaults to true
+
+**Bugs**
+- **Grid** - Fixes ``ui stackable grid`` sometimes not aligning correctly at mobile sizes with ``ui page grid``
+- **Progress** - Fixes issues with setting progress to 0% not working as expected
+- **Modal** - Fixes issues with multiple modals sometimes not closing dimmers
+- **Modal** - When a second modal that is not scrolling is opened after a scrolling modal it no longer causes the first modal to not be scrollable
+- **Modal** - "Hammer" clicking multiple times on a hiding dimmer no longer causes animation issues
+- **Sidebar** - Fixes issue with multiple sidebars sometimes causing dimmer to close prematurely
+- **Sidebar** - Dimmer can now be clicked even before sidebar has finished showing to immediately close sidebar
+- **Item/Card** - Default link formatting inside element simplified to avoid adjusting other nested ``ui`` link styles
+- **Dropdown** - Fixes bug with dropdown converted from ``select`` that use ``<option`` values with capital letters not being selectable
+- **Form** - Fixes required checkbox asterisks formatting incorrect
+
+**Docs / Build**
+- Fixed documentation on dropdown actions, form field widths, form validation types, and many odds & ends
+- Adds components to semantic.json.example
+- Theme.config.example now links to final site folder
+
+### Version 1.1.2 - December 03, 2014
+
+- **NPM** - Fixes issue with ``dist/`` not being included when using NPM due to ``.gitignore``
+
+### Version 1.1.1 - December 03, 2014
+
+**Bugs**
+- **Step** - Fixes step content appearing overlapped due to use of ``em`` instead of ``rem`` for line-height.
+- **Sidebar** - Fixes issue that may cause sidebars to stay open in some circumstances when using multiple sidebars
+
+### Version 1.1.0 - December 02, 2014
+
+**Enhancements**
+- **Transition** - Transition's caching of final display state and animation existence now has improved performance.
+- **Popup** - Popup now has a ``settings.prefer`` that defaults to ``adjacent``. This setting sets prefered next placement when a popup cannot fit on screen in the chosen placement. ``prefer`` can also be set to ``opposite`` to prefer the same position on the opposite side
+- **Popup** - Popup can now use a setting ``lastResort``. When set to a position it will be used as a last resort even if popup does not entirely fit on the page. Setting this to ``false`` will produce an error when a popup cannot fit on screen.
+- **Transition** now has ``useFailSafe`` parameter (off by default) to ensure transition callback fires even if native ``onAnimationEnd`` event does not fire due to element visibility. [Chromium Bug Report by Product Manager @ Mozilla](https://code.google.com/p/chromium/issues/detail?id=135350#c2) and [this open issue](https://code.google.com/p/chromium/issues/detail?id=437860)
+- **All UI** - Many ``em`` measurements adjusted slightly to calculate out as exact pixel values (Fixes 1px rounding errors)
+- **Steps** - Now use global border color
+- **Progress** - Progress now has sizing variations
+- **Input** - ``transparent input`` can now be ``inverted``
+- **Dropdown** - Dropdown ``onChange`` callback now fires when calling ``setSelected`` programatically.
+
+**Bugs**
+- **Build Tools** - NPM now correctly pins dependencies instead of using bleeding-edge versions which may break builds
+- **Transition** - Transition now correctly detects missing animations, errors do not cause future image transitions to break
+- **Menu/Segment** Fixes double border on pointing menu with attached segment **Thanks davialexandre**
+- **Progress** - Fixes indicating progress appearing incorrectly at 100% complete **Thanks ordepdev**
+- **Icon** - ``remove icon`` is now formatted correctly when used as ``remove link icon``
+- **Input** - ``ui action input`` can now accomodate ``ui button`` that adjust padding from default
+- **Dropdown** - Fix ``action input`` used inside ``ui dropdown`` to appear correctly **Thanks ordepdev**
+
+**Docs**
+- **Progress** - Added missing settings docs for progress module
 
 ### Version 1.0.1 - November 28, 2014
 
@@ -10,8 +345,6 @@
 - **Menu** - Removes missing image loader variable **Thanks ryan-mahoney**
 - **Card/Item** - Fix generic link stylings erroneously affecting linked ui elements like buttons
 - **Table** - Fixes table cell transition animating all properties
-
-**Updates to LearnSemantic guides
 
 ### Version 1.0.0 - November 24, 2014
 
