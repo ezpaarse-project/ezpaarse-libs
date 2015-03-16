@@ -1,13 +1,14 @@
-/*
- * # Semantic - Dropdown
+/*!
+ * # Semantic UI - Dropdown
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributor
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
+
 
 /*******************************
             Theme
@@ -16,8 +17,7 @@
 @type    : 'module';
 @element : 'dropdown';
 
-@import '../../theme.config';
-
+@import (multiple) '../../theme.config';
 
 /*******************************
             Dropdown
@@ -73,7 +73,7 @@
   Hidden Input
 ---------------*/
 
-.ui.dropdown > input[type="hidden"],
+.ui.dropdown > input:not(.search):first-child,
 .ui.dropdown > select {
   display: none !important;
 }
@@ -348,10 +348,10 @@
 }
 
 select.ui.dropdown {
-  height: 38px;
-  padding: 0em;
-  margin: 0em;
-  visibility: hidden;
+  height: @selectHeight;
+  padding: @selectPadding;
+  border: @selectBorder;
+  visibility: @selectVisibility;
 }
 .ui.selection.dropdown > .text {
   margin-right: @selectionTextIconDistance;
@@ -359,10 +359,12 @@ select.ui.dropdown {
 .ui.selection.dropdown > .search.icon,
 .ui.selection.dropdown > .delete.icon,
 .ui.selection.dropdown > .dropdown.icon {
+  cursor: pointer;
   position: absolute;
   top: auto;
-  margin: 0em;
   width: auto;
+  margin: @selectionIconMargin;
+  padding: @selectionIconPadding;
   right: @selectionHorizontalPadding;
   opacity: @selectionIconOpacity;
   transition: @selectionIconTransition;
@@ -391,6 +393,14 @@ select.ui.dropdown {
 .ui.selection.dropdown .menu:after,
 .ui.selection.dropdown .menu:before {
   display: none;
+}
+
+
+/* Scrollbar in IE */
+@media all and (-ms-high-contrast:none) {
+  .ui.selection.dropdown .menu {
+    min-width: calc(100% - @scrollBarWidth);
+  }
 }
 
 @media only screen and (max-width : @largestMobileScreen) {
@@ -455,9 +465,6 @@ select.ui.dropdown {
   border-color: @selectionVisibleBorderColor;
   box-shadow: @selectionVisibleBoxShadow;
 }
-.ui.visible.selection.dropdown > .dropdown.icon {
-  opacity: @selectionVisibleIconOpacity;
-}
 
 /* Active Item */
 .ui.selection.active.dropdown > .text:not(.default),
@@ -466,6 +473,12 @@ select.ui.dropdown {
   color: @selectionVisibleTextColor;
 }
 
+/* Dropdown Icon */
+.ui.active.selection.dropdown > .dropdown.icon,
+.ui.visible.selection.dropdown > .dropdown.icon {
+  opacity: @selectionVisibleIconOpacity;
+  z-index: 3;
+}
 
 /* Connecting Border */
 .ui.active.selection.dropdown,

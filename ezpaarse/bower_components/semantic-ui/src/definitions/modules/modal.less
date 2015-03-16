@@ -1,13 +1,14 @@
-/*
- * # Semantic - Modal
+/*!
+ * # Semantic UI - Modal
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributor
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
+
 
 /*******************************
             Theme
@@ -16,7 +17,7 @@
 @type    : 'module';
 @element : 'modal';
 
-@import '../../theme.config';
+@import (multiple) '../../theme.config';
 
 /*******************************
              Modal
@@ -123,7 +124,7 @@
 .ui.modal > .content > .image[class*="top aligned"] {
   vertical-align: top;
 }
-.ui.modal > .content > .image[class*="top aligned"] {
+.ui.modal > .content > .image[class*="middle aligned"] {
   vertical-align: middle;
 }
 
@@ -249,6 +250,7 @@
     box-shadow: none;
   }
 
+  /* Let Buttons Stack */
   .ui.modal > .actions {
     padding: @mobileActionPadding !important;
   }
