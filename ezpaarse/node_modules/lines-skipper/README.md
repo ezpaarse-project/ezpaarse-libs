@@ -12,11 +12,21 @@ npm install lines-skipper
 
 ## Usage
 
+### With an array of integers
 ```javascript
   var skip = require('lines-skipper');
 
   readStream
   .pipe(skip([2,4,6])) // skip lines 2, 4 and 6
+  .pipe(writeStream);
+```
+
+### With a filtering function
+```javascript
+  var skip = require('lines-skipper');
+
+  readStream
+  .pipe(skip(function (n) { return n % 2 })) // skip lines whose number is odd
   .pipe(writeStream);
 ```
 

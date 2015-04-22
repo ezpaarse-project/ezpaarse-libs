@@ -3,13 +3,22 @@
 var util      = require('util');
 var Transform = require('stream').Transform || require('readable-stream').Transform;
 
-function LinesSkipper(linesToRemove) {
+function LinesSkipper(toRemove) {
   Transform.call(this);
-  if (linesToRemove && !Array.isArray(linesToRemove)) {
-    throw new Error('argument should be an array');
+
+  if (!toRemove) {
+    this._filter = function () { return false; };
+  } else if (typeof toRemove == 'function') {
+    this._filter = toRemove;
+  } else if (Array.isArray(toRemove)) {
+    this._linesToRemove = toRemove.sort(function (a, b) { return a - b; });
+    this._filter = function (number) {
+      return number == this._linesToRemove[0];
+    };
+  } else {
+    throw new Error('argument should be either an array or a function');
   }
 
-  this._linesToRemove  = (linesToRemove || []).sort(function (a, b) { return a - b; });
   this._nextLineToPush = 1;
   this._buffer         = '';
 }
@@ -25,10 +34,10 @@ LinesSkipper.prototype._transform = function (chunk, encoding, done) {
     var line = this._buffer.substr(0, index + 1);
     this._buffer = this._buffer.substr(index + 1);
 
-    if (this._nextLineToPush != this._linesToRemove[0]) {
-      this.push(line);
+    if (this._filter(this._nextLineToPush)) {
+      if (this._linesToRemove) { this._linesToRemove.shift(); }
     } else {
-      this._linesToRemove.shift();
+      this.push(line);
     }
 
     this._nextLineToPush++;
@@ -40,10 +49,10 @@ LinesSkipper.prototype._transform = function (chunk, encoding, done) {
 };
 
 LinesSkipper.prototype._flush = function (done) {
-  if (this._nextLineToPush != this._linesToRemove[0]) { this.push(this._buffer); }
+  if (!this._filter(this._nextLineToPush)) { this.push(this._buffer); }
   done();
 };
 
-module.exports = function (linesToRemove) {
-  return new LinesSkipper(linesToRemove);
+module.exports = function (toRemove) {
+  return new LinesSkipper(toRemove);
 };

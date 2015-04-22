@@ -1,6 +1,6 @@
 {
   "name": "bxslider-4",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "homepage": "http://bxslider.com",
   "license": "MIT",
   "main": [
@@ -19,13 +19,13 @@
   "dependencies": {
     "jquery": ">=1.6"
   },
-  "_release": "4.2.2",
+  "_release": "4.2.3",
   "_resolution": {
     "type": "version",
-    "tag": "v4.2.2",
-    "commit": "075c2399bf2fabc55c607e34bcb31c8ea9b92372"
+    "tag": "v4.2.3",
+    "commit": "1ff0ba57700d67849d80e74ffb07c01f34acd8c3"
   },
   "_source": "https://github.com/stevenwanderski/bxslider-4.git",
-  "_target": "~4.2.2",
+  "_target": "~4.2.3",
   "_originalSource": "bx-slider.js"
 }

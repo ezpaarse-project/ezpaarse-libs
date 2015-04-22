@@ -2,12 +2,8 @@
 
 module.exports = SliceStream;
 
-var Transform = require('stream').Transform;
+var Transform = require('readable-stream/transform');
 var inherits = require("util").inherits;
-
-if (!Transform) {
-  Transform = require('readable-stream/transform');
-}
 
 inherits(SliceStream, Transform);
 
