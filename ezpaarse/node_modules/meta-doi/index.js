@@ -1,32 +1,13 @@
 'use strict';
 
-var cfg     = require('./config.json');
-var parser  = require('xml2json');
-var request = require('request').defaults({
-  proxy: process.env.http_proxy ||
-         process.env.HTTP_PROXY ||
-         process.env.https_proxy ||
-         process.env.HTTPS_PROXY
-});
-var config = require('./lib/config.js');
+var request = require('request');
 var pid;
-
-// load credentials for DOI requests
-if (config.pid) {
-  pid = config.pid;
-} else {
-  console.error("Pid undefined ! needed for DOI requests");
-  console.error("You can only use API requests");
-}
 
 exports.resolve = function (doi, options, cb) {
   var r = {};
 
   exports.APIquery(doi, function (err, response) {
-    if (err) {
-      console.error("Error : " + err);
-      return cb(err);
-    }
+    if (err) { return cb(err); }
 
     if (response === null) { return cb(null, {}); }
     if (!response) { return cb(new Error('no response')); }
@@ -49,51 +30,6 @@ exports.resolve = function (doi, options, cb) {
     }
 
     return cb(null, {});
-  });
-};
-
-/**
- * Query Crossref and get results
- * @param  {Object}   search   the actual query parameters
- * @param  {Object}   doi : doi to search metadata for
- * @param  {Function} callback(err, result)
- */
-exports.DOIquery = function (doi, callback) {
-
-  // query link
-  // CrossRef https://doi.crossref.org/search/doi?pid=inis:inis708&format=unixsd&doi=10.1016/0735-6757(91)90169-K
-  //
-
-  var url = 'https://doi.crossref.org/search/doi?pid=' + pid + '&format=unixsd&doi=' + encodeURIComponent(doi);
-
-  request.get(url, function (err, res, body) {
-    if (err) { return callback(err); }
-
-    if (res.statusCode === 401) {
-      return callback(new Error('Unauthorized status code (' + res.statusCode + ') check your credentials'));
-    } else if (res.statusCode !== 200) {
-      console.error(url);
-      return callback(new Error('Unexpected status code : ' + res.statusCode));
-    }
-
-    var info;
-
-    try {
-      //console.log(parser.toJson(body));
-      info = JSON.parse(parser.toJson(body));
-    } catch(e) {
-      //console.log(body);
-      return callback(e);
-    }
-
-    // if an error is thown, the json should contain the status code and a detailed message
-    if (info.error) {
-      var error = new Error(info.error.msg || 'got an unknown error from the API');
-      error.code = info.error.code;
-      return callback(error) ;
-    }
-
-    callback(null , info);
   });
 };
 

@@ -33,10 +33,7 @@ var testSet = [
 ];
 
 describe('Crossref doi', function () {
-  testSet.forEach(function(testCase) {
-    DOIcheck(testCase);
-    APIcheck(testCase);
-  });
+  testSet.forEach(APIcheck);
 
   it('should correctly handle doi arrays (@03)', function (done) {
     var dois = testSet.map(function (set) { return set.doi; });
@@ -65,18 +62,6 @@ describe('Crossref doi', function () {
     });
   });
 });
-
-function DOIcheck(testCase) {
-  describe('DOI request ', function () {
-    it('should be correctly enriched (@01) for ' + testCase.platform, function (done) {
-      metaDOI.DOIquery(testCase.doi, function (err, doc) {
-        should.ifError(err);
-        should.equal(metaDOI.DOIgetPublicationDateYear(doc), testCase.year);
-        done();
-      });
-    });
-  });
-}
 
 function APIcheck(testCase) {
   describe('API request ', function () {
