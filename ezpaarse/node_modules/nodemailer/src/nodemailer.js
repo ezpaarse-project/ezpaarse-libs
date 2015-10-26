@@ -1,13 +1,14 @@
 'use strict';
 
-var Compiler = require('./compiler');
+var mailcomposer = require('mailcomposer');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var directTransport = require('nodemailer-direct-transport');
 var smtpTransport = require('nodemailer-smtp-transport');
 var packageData = require('../package.json');
 var fs = require('fs');
-var hyperquest = require('hyperquest');
+var needle = require('needle');
+var PassThrough = require('stream').PassThrough;
 
 // Export createTransport method
 module.exports.createTransport = function(transporter) {
@@ -90,10 +91,27 @@ Nodemailer.prototype.sendMail = function(data, callback) {
             return callback(err);
         }
 
-        mail.message = new Compiler(mail.data).compile();
+        mail.message = mailcomposer(mail.data);
 
         if (mail.data.xMailer !== false) {
             mail.message.setHeader('X-Mailer', mail.data.xMailer || this._getVersionString());
+        }
+
+        if (mail.data.priority) {
+            switch((mail.data.priority || '').toString().toLowerCase()){
+                case 'high':
+                    mail.message.setHeader('X-Priority', '1 (Highest)');
+                    mail.message.setHeader('X-MSMail-Priority', 'High');
+                    mail.message.setHeader('Importance', 'High');
+                    break;
+                case 'low':
+                    mail.message.setHeader('X-Priority', '5 (Lowest)');
+                    mail.message.setHeader('X-MSMail-Priority', 'Low');
+                    mail.message.setHeader('Importance', 'Low');
+                    break;
+                default:
+                    // do not add anything, since all messages are 'Normal' by default
+            }
         }
 
         this._processPlugins('stream', mail, function(err) {
@@ -120,6 +138,7 @@ Nodemailer.prototype.sendMail = function(data, callback) {
  */
 Nodemailer.prototype.resolveContent = function(data, key, callback) {
     var content = data && data[key] && data[key].content || data[key];
+    var contentStream;
     var encoding = (typeof data[key] === 'object' && data[key].encoding || 'utf8')
         .toString()
         .toLowerCase()
@@ -141,7 +160,21 @@ Nodemailer.prototype.resolveContent = function(data, key, callback) {
                 callback(null, value);
             }.bind(this));
         } else if (/^https?:\/\//i.test(content.path || content.href)) {
-            return this._resolveStream(hyperquest(content.path || content.href), callback);
+            contentStream = new PassThrough();
+            needle.get(content.path || content.href, {
+                decode_response: false,
+                parse_response: false,
+                compressed: true,
+                follow_max: 5
+            }).on('end', function(err) {
+                if (err) {
+                    contentStream.emit('error', err);
+                }
+                contentStream.emit('end');
+            }).pipe(contentStream, {
+                end: false
+            });
+            return this._resolveStream(contentStream, callback);
         } else if (/^data:/i.test(content.path || content.href)) {
             var parts = (content.path || content.href).match(/^data:((?:[^;]*;)*(?:[^,]*)),(.*)$/i);
             if (!parts) {

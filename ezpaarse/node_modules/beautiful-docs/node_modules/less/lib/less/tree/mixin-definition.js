@@ -14,14 +14,17 @@ var Definition = function (name, params, rules, condition, variadic, frames) {
     this.arity = params.length;
     this.rules = rules;
     this._lookups = {};
+    var optionalParameters = [];
     this.required = params.reduce(function (count, p) {
         if (!p.name || (p.name && !p.value)) {
             return count + 1;
         }
         else {
+            optionalParameters.push(p.name);
             return count;
         }
     }, 0);
+    this.optionalParameters = optionalParameters;
     this.frames = frames;
 };
 Definition.prototype = new Ruleset();
@@ -152,29 +155,37 @@ Definition.prototype.matchCondition = function (args, context) {
         new contexts.Eval(context,
             [this.evalParams(context, /* the parameter variables*/
                 new contexts.Eval(context, this.frames ? this.frames.concat(context.frames) : context.frames), args, [])]
-            .concat(this.frames) // the parent namespace/mixin frames
+            .concat(this.frames || []) // the parent namespace/mixin frames
             .concat(context.frames)))) { // the current environment frames
         return false;
     }
     return true;
 };
 Definition.prototype.matchArgs = function (args, context) {
-    var argsLength = (args && args.length) || 0, len;
+    var allArgsCnt = (args && args.length) || 0, len, optionalParameters = this.optionalParameters;
+    var requiredArgsCnt = !args ? 0 : args.reduce(function (count, p) {
+        if (optionalParameters.indexOf(p.name) < 0) {
+            return count + 1;
+        } else {
+            return count;
+        }
+    }, 0);
 
     if (! this.variadic) {
-        if (argsLength < this.required) {
+        if (requiredArgsCnt < this.required) {
             return false;
         }
-        if (argsLength > this.params.length) {
+        if (allArgsCnt > this.params.length) {
             return false;
         }
     } else {
-        if (argsLength < (this.required - 1)) {
+        if (requiredArgsCnt < (this.required - 1)) {
             return false;
         }
     }
 
-    len = Math.min(argsLength, this.arity);
+    // check patterns
+    len = Math.min(requiredArgsCnt, this.arity);
 
     for (var i = 0; i < len; i++) {
         if (!this.params[i].name && !this.params[i].variadic) {

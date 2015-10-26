@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.8.0 2015-10-08
+
+Added priority option (high, normal, low) for setting Importance header
+
+## v1.7.0 2015-10-06
+
+Replaced hyperquest with needle. Fixes issues with compressed data and redirects
+
+## v1.6.0 2015-10-05
+
+Maintenance release. Bumped dependencies to get support for unicode filenames for QQ webmail and to support emoji in filenames
+
+## v1.5.0 2015-09-24
+
+Use mailcomposer instead of built in solution to generate message sources. Bumped libmime gives better quoted-printable handling.
+
+## v1.4.0 2015-06-27
+
+Added new message option `watchHtml` to specify Apple Watch specific HTML part of the message. See [this post](https://litmus.com/blog/how-to-send-hidden-version-email-apple-watch) for details
+
 ## v1.3.4 2015-04-25
 
 Maintenance release, bumped buildmail version to get fixed format=flowed handling
