@@ -1,5 +1,29 @@
 ## RELEASE NOTES
 
+
+### Version 1.12.3 - May 20, 2015
+
+**Announcement**
+Version 2.0 will be launching on June 1st, which will include 100+ bug fixes, enhancements, new ui, and default theme improvements.
+
+**Bugs**
+- **Grid** - Fixes bug causing colored variations not to work on columns without row wrappers. Backport from `2.x`
+
+### Version 1.12.2 - May 4, 2015
+
+**Bugs**
+- **Dropdown** - Fixed `left` and `right` arrow does not move input cursor with `visible selection dropdown`. Event accidentally prevented by `sub menu` shortcut keys.
+
+### Version 1.12.1 - April 26, 2015
+
+**Bugs**
+- **Dropdown** - Fixes issue with chained dropdown methods used on a `<select>` not applying to the generated `ui dropdown` **Backport from 2.0**
+- **Input** - Fixes labeled inputs not adjusting correctly with flex. **Backported from 2.0**
+- **Input** - Fixes placeholder text color prefixes for `webkit` **Backport from 2.0**
+- **Progress* - Fixes rounding error in precision settings *Thanks @aaroncox*
+- **Popup** - Removes `min-width: moz-max-content` from popups, which may cause display differences between chrome and FF
+
+
 ### Version 1.12.0 - April 13, 2015
 
 **Enhancements**

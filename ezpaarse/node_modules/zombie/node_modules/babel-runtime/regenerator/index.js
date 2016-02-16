@@ -23,7 +23,11 @@ if (hadRuntime) {
   g.regeneratorRuntime = oldRuntime;
 } else {
   // Remove the global property added by runtime.js.
-  delete g.regeneratorRuntime;
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
 }
 
 module.exports = { "default": module.exports, __esModule: true };
